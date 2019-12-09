@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SwitchProps } from 'react-router';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, RouteChildrenProps, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { sortBy } from 'lodash';
 import { AppBar, Divider, Drawer, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Theme, Toolbar, Typography, WithStyles, withStyles } from '@material-ui/core';
@@ -21,24 +20,19 @@ const styles = (theme: Theme) => ({
   }
 });
 
-interface ComputedMatchProps<Params extends { [K in keyof Params]?: string } = {}> {
-  isExact: boolean;
-  params: Params;
-  path: string;
-  url: string;
+interface OwnProps extends RouteChildrenProps<{ id: string | undefined, kind: string | undefined }>, WithStyles<typeof styles> {
 }
 
-interface CustomizeRouterProps<Params extends { [K in keyof Params]?: string } = {}> extends SwitchProps, WithStyles<typeof styles> {
-  match: ComputedMatchProps<Params>;
-}
-
-const ProjectList: React.FC<CustomizeRouterProps<{ id?: string, kind?: string }>> = ({ classes, match: { params: { id, kind } } }) => {
+const ProjectList: React.FC<OwnProps> = ({ classes, match }) => {
   const history = useHistory();
 
   const [projects, setProjects] = useState<Project[]>([]);
   const [drawerOpen, setDrawerOpen] = useState(true);
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
   const [removeId, setRemoveId] = useState<string | null>(null);
+
+  const id = match ? match.params.id : undefined;
+  const kind = match ? match.params.kind : undefined;
 
   const project = id ? projects.find(p => p.id === id) : undefined;
   const removeIdProject = removeId ? projects.find(p => p.id === removeId) : undefined;
