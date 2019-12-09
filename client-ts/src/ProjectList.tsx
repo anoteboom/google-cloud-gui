@@ -30,7 +30,6 @@ interface ComputedMatchProps<Params extends { [K in keyof Params]?: string } = {
 
 interface CustomizeRouterProps<Params extends { [K in keyof Params]?: string } = {}> extends SwitchProps, WithStyles<typeof styles> {
   match: ComputedMatchProps<Params>;
-  path: string,
 }
 
 const ProjectList: React.FC<CustomizeRouterProps<{ id?: string, kind?: string }>> = ({ classes, match: { params: { id, kind } } }) => {
