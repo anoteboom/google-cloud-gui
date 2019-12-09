@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { SwitchProps } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { sortBy } from 'lodash';
 import { AppBar, Divider, Drawer, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Theme, Toolbar, Typography, WithStyles, withStyles } from '@material-ui/core';
 import { AddCircle, ChevronLeft, Delete, Menu } from '@material-ui/icons';
 import { css } from 'glamor';
 import { Div } from 'glamorous';
+import ProjectDialog from './ProjectDialog';
 import Project from './model/Project';
 
 const styles = (theme: Theme) => ({
@@ -32,6 +33,8 @@ interface CustomizeRouterProps<Params extends { [K in keyof Params]?: string } =
 }
 
 const ProjectList: React.FC<CustomizeRouterProps<{ id?: string, kind?: string }>> = ({ classes, match: { params: { id, kind } } }) => {
+  const history = useHistory();
+
   const [projects, setProjects] = useState<Project[]>([]);
   const [drawerOpen, setDrawerOpen] = useState(true);
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
@@ -45,6 +48,11 @@ const ProjectList: React.FC<CustomizeRouterProps<{ id?: string, kind?: string }>
       .then((list: Project[]) => setProjects(sortBy(list, 'projectId', 'apiEndpoint')))
       .catch(console.error); // TODO
   }, []);
+
+  const addProject = (project: Project) => {
+    setProjects(sortBy([...projects, project], 'projectId', 'apiEndpoint'));
+    history.push(`/${project.id}`);
+  };
 
   return (
     <Div position="absolute" top={0} bottom={0} left={0} right={0}>
@@ -98,11 +106,12 @@ const ProjectList: React.FC<CustomizeRouterProps<{ id?: string, kind?: string }>
         {/*  {project && <DatastorePage id={project.id} kind={kind}/>}*/}
         {/*</Div>*/}
       </Div>
-      {/*<ProjectDialog*/}
-      {/*  open={projectDialogOpen}*/}
-      {/*  onClose={() => this.setState({ projectDialogOpen: false })}*/}
-      {/*  onSaved={this.addProject}*/}
-      {/*/>*/}
+      {projectDialogOpen && (
+        <ProjectDialog
+          onClose={() => setProjectDialogOpen(false)}
+          onSaved={addProject}
+        />
+      )}
       {/*<ConfirmDialog*/}
       {/*  open={!!removeId}*/}
       {/*  text={*/}

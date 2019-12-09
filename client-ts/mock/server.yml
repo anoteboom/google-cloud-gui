@@ -1,4 +1,3 @@
-# Get Project List
 - request:
     method: GET
     url: ^/projects$
@@ -7,4 +6,14 @@
     latency: 1000
     headers:
       content-type: application/json
-    file: api/projects.json
+    file: api/get-projects.json
+
+- request:
+    method: POST
+    url: ^/projects$
+  response:
+    status: 201
+    latency: 1000
+    headers:
+      content-type: application/json
+    file: api/post-project.json
