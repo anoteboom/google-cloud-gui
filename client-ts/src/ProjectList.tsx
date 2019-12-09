@@ -44,7 +44,7 @@ const ProjectList: React.FC<CustomizeRouterProps<{ id?: string, kind?: string }>
       .then(({ data }) => Array.isArray(data) ? data.map((obj: { [key: string]: any }) => Project.parse(obj)) : [])
       .then((list: Project[]) => setProjects(sortBy(list, 'projectId', 'apiEndpoint')))
       .catch(console.error); // TODO
-  });
+  }, []);
 
   return (
     <Div position="absolute" top={0} bottom={0} left={0} right={0}>
