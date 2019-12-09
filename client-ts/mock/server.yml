@@ -3,7 +3,6 @@
     url: ^/projects$
   response:
     status: 200
-    latency: 1000
     headers:
       content-type: application/json
     file: api/get-projects.json
@@ -13,7 +12,15 @@
     url: ^/projects$
   response:
     status: 201
-    latency: 1000
     headers:
       content-type: application/json
     file: api/post-project.json
+
+- request:
+    method: DELETE
+    url: ^/projects/.+$
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+    body: ''

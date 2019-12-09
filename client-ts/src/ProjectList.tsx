@@ -7,6 +7,7 @@ import { AppBar, Divider, Drawer, IconButton, List, ListItem, ListItemSecondaryA
 import { AddCircle, ChevronLeft, Delete, Menu } from '@material-ui/icons';
 import { css } from 'glamor';
 import { Div } from 'glamorous';
+import ConfirmDialog from './ConfirmDialog';
 import ProjectDialog from './ProjectDialog';
 import Project from './model/Project';
 
@@ -40,7 +41,8 @@ const ProjectList: React.FC<CustomizeRouterProps<{ id?: string, kind?: string }>
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
   const [removeId, setRemoveId] = useState<string | null>(null);
 
-  const project: Project | undefined = id ? projects.find(p => p.id === id) : undefined;
+  const project = id ? projects.find(p => p.id === id) : undefined;
+  const removeIdProject = removeId ? projects.find(p => p.id === removeId) : undefined;
 
   useEffect(() => {
     axios.get('/projects')
@@ -52,6 +54,17 @@ const ProjectList: React.FC<CustomizeRouterProps<{ id?: string, kind?: string }>
   const addProject = (project: Project) => {
     setProjects(sortBy([...projects, project], 'projectId', 'apiEndpoint'));
     history.push(`/${project.id}`);
+  };
+
+  const removeProject = (removeId: string) => {
+    axios.delete(`/projects/${removeId}`)
+      .then(() => {
+        setProjects(projects.filter(p => p.id !== removeId));
+        if (id === removeId) {
+          history.push('/');
+        }
+      })
+      .catch(console.error); // TODO
   };
 
   return (
@@ -112,18 +125,14 @@ const ProjectList: React.FC<CustomizeRouterProps<{ id?: string, kind?: string }>
           onSaved={addProject}
         />
       )}
-      {/*<ConfirmDialog*/}
-      {/*  open={!!removeId}*/}
-      {/*  text={*/}
-      {/*    !!removeId &&*/}
-      {/*    `Remove the project ${*/}
-      {/*      projects.find(({ id }) => id === removeId).projectId*/}
-      {/*    } from the list?`*/}
-      {/*  }*/}
-      {/*  confirmLabel="Remove"*/}
-      {/*  onClose={() => this.setState({ removeId: null })}*/}
-      {/*  onConfirm={() => this.removeProject(removeId)}*/}
-      {/*/>*/}
+      {(removeId && removeIdProject) && (
+        <ConfirmDialog
+          text={`Remove the project ${removeIdProject.projectId} from the list?`}
+          confirmLabel="Remove"
+          onClose={() => setRemoveId(null)}
+          onConfirmed={() => removeProject(removeId)}
+        />
+      )}
     </Div>
   );
 };
