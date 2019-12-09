@@ -1,0 +1,10 @@
+# Get Project List
+- request:
+    method: GET
+    url: ^/projects$
+  response:
+    status: 200
+    latency: 1000
+    headers:
+      content-type: application/json
+    file: api/projects.json

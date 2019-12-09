@@ -1,0 +1,14 @@
+[
+  {
+    "service": "datastore",
+    "projectId": "sample-project1-43178788",
+    "apiEndpoint": "localhost:8081",
+    "id": "81254c37-449a-4fdb-8ec8-3593b26921be"
+  },
+  {
+    "service": "datastore",
+    "projectId": "sample-project2-40727848",
+    "apiEndpoint": "localhost:18081",
+    "id": "84C275BB-F554-48C3-85DB-33B6349D471E"
+  }
+]
