@@ -19,7 +19,7 @@ server(
   require('./projects'),
   require('./datastore'),
   () => send((() => readFileSync(path.join(__dirname, 'public', 'index.html'), { encoding: 'UTF-8' }))()),
-  error(ctx => status(500).send(ctx.error.message))
+  // error(ctx => status(500).send(ctx.error.message))
 );
 
 if (!argv.skipBrowser) {
