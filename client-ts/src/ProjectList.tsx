@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Link, RouteChildrenProps, useHistory } from 'react-router-dom';
+import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { sortBy } from 'lodash';
-import { AppBar, Divider, Drawer, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Theme, Toolbar, Typography, WithStyles, withStyles } from '@material-ui/core';
+import { AppBar, createStyles, Divider, Drawer, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, StyleRules, Theme, Toolbar, Typography, WithStyles, withStyles } from '@material-ui/core';
 import { AddCircle, ChevronLeft, Delete, Menu } from '@material-ui/icons';
 import { css } from 'glamor';
 import { Div } from 'glamorous';
 import ConfirmDialog from './ConfirmDialog';
 import ProjectDialog from './ProjectDialog';
 import Project from './model/Project';
+import DatastorePage from './datastore/DatastorePage';
 
-const styles = (theme: Theme) => ({
+const styles = (theme: Theme): StyleRules => createStyles({
   content: {
     flexGrow: 1,
     transition: theme.transitions.create('margin', {
@@ -20,7 +21,7 @@ const styles = (theme: Theme) => ({
   }
 });
 
-interface OwnProps extends RouteChildrenProps<{ id: string | undefined, kind: string | undefined }>, WithStyles<typeof styles> {
+interface OwnProps extends RouteComponentProps<{ id: string | undefined, kind: string | undefined }>, WithStyles<typeof styles> {
 }
 
 const ProjectList: React.FC<OwnProps> = ({ classes, match }) => {
@@ -108,9 +109,9 @@ const ProjectList: React.FC<OwnProps> = ({ classes, match }) => {
             </Typography>
           </Toolbar>
         </AppBar>
-        {/*<Div flex={1} overflow="hidden">*/}
-        {/*  {project && <DatastorePage id={project.id} kind={kind}/>}*/}
-        {/*</Div>*/}
+        <Div flex={1} overflow="hidden">
+          {project && <DatastorePage id={project.id} kind={kind}/>}
+        </Div>
       </Div>
       {projectDialogOpen && (
         <ProjectDialog

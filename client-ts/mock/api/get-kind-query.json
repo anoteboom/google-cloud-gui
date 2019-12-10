@@ -1,0 +1,53 @@
+{
+  "entities": [
+    {
+      "created_time": "2019-11-04T11:37:27.253Z",
+      "name_eng": "Playing Manager",
+      "name": "プレイングマネージャー",
+      "description": "実装などの最前線も行いながらプロジェクト全体のまとめをやっていく。 お客さんとの調整も行い、請求書などの契約周りの作業も実施する。",
+      "description_eng": "",
+      "__key__": {
+        "path": [
+          {
+            "kind": "role",
+            "id": "86"
+          }
+        ]
+      }
+    },
+    {
+      "created_time": "2019-11-04T11:37:58.468Z",
+      "name_eng": "Sales",
+      "name": "セールス",
+      "description": "新規案件を獲得するために提案活動を行ったり、いままで関係を構築した方々を訪問し彼らの問題を見つけてくる。 問題解決、社内でのニーズ、ビジネス面を見て案件を取っていくかを周りのメンバーと話し合っていく役割。",
+      "description_eng": "",
+      "__key__": {
+        "path": [
+          {
+            "kind": "role",
+            "id": "87"
+          }
+        ]
+      }
+    },
+    {
+      "created_time": "2019-11-04T11:38:18.936Z",
+      "name_eng": "React Supporter",
+      "name": "Reactサポーター",
+      "description": "Reactでプロジェクトを作成したことのある人。 プロジェクトメンバーが困ったときに助言を行う人。",
+      "description_eng": "Someone who has created a project with React. A person who gives advice when project members are in trouble.",
+      "__key__": {
+        "path": [
+          {
+            "kind": "role",
+            "id": "88"
+          }
+        ]
+      }
+    }
+  ],
+  "next": {
+    "moreResults": "MORE_RESULTS_AFTER_LIMIT",
+    "endCursor": "Ci0SJ2oZYXR3YXJlLWRhc2hib2FyZC0yOTk4NjYyMnIKCxIEcm9sZRhYDBgAIAA="
+  }
+}
