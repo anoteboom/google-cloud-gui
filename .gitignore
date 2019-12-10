@@ -373,3 +373,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/vim,node,macos,windows,eclipse,jetbrains,sublimetext,visualstudiocode
+
+server/src/public
+client*/build

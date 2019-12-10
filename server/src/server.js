@@ -1,22 +1,18 @@
-const path = require('path')
-const { readFileSync } = require('fs')
-const server = require('server')
-const { argv } = require('yargs')
-const opn = require('opn')
+const path = require('path');
+const { readFileSync } = require('fs');
+const server = require('server');
+const { argv } = require('yargs');
+const open = require('open');
 
-const { send } = server.reply
+const { send } = server.reply;
 
-const port = argv.port || 8000
+const port = argv.port || 8000;
 
 const index = (() => {
-  try {
-    return readFileSync(path.join(__dirname, 'public', 'index.html'), {
-      encoding: 'UTF-8'
-    })
-  } catch (e) {
-    return ''
-  }
-})()
+  return readFileSync(path.join(__dirname, 'public', 'index.html'), {
+    encoding: 'UTF-8'
+  });
+})();
 
 server(
   {
@@ -27,8 +23,8 @@ server(
   require('./projects'),
   require('./datastore'),
   () => send(index)
-)
+);
 
 if (!argv.skipBrowser) {
-  opn(`http://localhost:${port}`)
+  open(`http://localhost:${port}`);
 }

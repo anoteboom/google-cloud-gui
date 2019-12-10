@@ -1,7 +1,7 @@
 const { get, post } = require('server/router')
 const { json, status } = require('server/reply')
 const Datastore = require('@google-cloud/datastore')
-const { keyToKeyProto } = require('@google-cloud/datastore/src/entity')
+const { keyToKeyProto } = require('@google-cloud/datastore/build/src/entity')
 
 const { projects } = require('./db')
 
