@@ -5,7 +5,7 @@ import { createStyles, FormControl, InputLabel, List, ListItem, ListItemText, Me
 import { withStyles } from '@material-ui/core/styles';
 import { css } from 'glamor';
 import { Div } from 'glamorous';
-// import DatastoreKind from './DatastoreKind';
+import DatastoreKind from './DatastoreKind';
 
 const styles: StyleRules = createStyles({});
 
@@ -76,7 +76,7 @@ const DatastorePage: React.FC<OwnProps> = ({ id, kind, match, theme }) => {
           })}
         </List>
       </Div>
-      {/*{kind && <DatastoreKind id={id} namespace={namespace} kind={kind}/>}*/}
+      {kind && <DatastoreKind id={id} namespace={namespace} kind={kind}/>}
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={loadingNamespaces || loadingKinds}

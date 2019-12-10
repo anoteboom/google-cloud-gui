@@ -46,6 +46,17 @@
 - request:
     method: GET
     url: ^/datastore/.+/.+/kinds/.+/query$
+    query:
+      cursor: .+
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+    file: api/get-kind-query-without-next.json
+
+- request:
+    method: GET
+    url: ^/datastore/.+/.+/kinds/.+/query$
   response:
     status: 200
     headers:
