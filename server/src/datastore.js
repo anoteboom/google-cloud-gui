@@ -62,9 +62,6 @@ const queryKind = (req, res) => {
   const { cursor } = req.query;
 
   const datastore = getDatastore(id, namespace);
-
-  console.log(`kind = ${kind}, cursor = ${cursor}`);
-
   const query = datastore.createQuery(kind).limit(100);
   if (cursor) {
     query.start(cursor);
@@ -72,9 +69,6 @@ const queryKind = (req, res) => {
 
   datastore.runQuery(query)
     .then(results => {
-
-      console.log(results);
-
       results[0].forEach(entity => entity.__key__ = keyToKeyProto(entity[datastore.KEY]));
       return res.json({
         entities: results[0],
