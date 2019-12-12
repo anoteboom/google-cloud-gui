@@ -1,5 +1,4 @@
 const { Datastore } = require('@google-cloud/datastore');
-const { keyToKeyProto } = require('@google-cloud/datastore/build/src/entity');
 const { projects } = require('./db');
 
 const datastoreList = {};
@@ -62,14 +61,18 @@ const queryKind = (req, res) => {
   const { cursor } = req.query;
 
   const datastore = getDatastore(id, namespace);
-  const query = datastore.createQuery(kind).limit(100);
+  const query = datastore.createQuery(undefined, kind).limit(100);
   if (cursor) {
     query.start(cursor);
   }
 
   datastore.runQuery(query)
     .then(results => {
-      results[0].forEach(entity => entity.__key__ = keyToKeyProto(entity[datastore.KEY]));
+      results[0].forEach(entity => {
+        let id = entity[datastore.KEY].id;
+        delete entity[datastore.KEY];
+        entity.id = id;
+      });
       return res.json({
         entities: results[0],
         next: results[1],
