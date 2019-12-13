@@ -56,3 +56,7 @@ The project is composed of `server` and `client` directories. To run locally:
 * Under `client` run `yarn start` - this will start a development server on port 3000 and open the browser at `http://localhost:3000`
 
 To build locally, under the project root run `build.sh` - this will create the `build` directory with the server and transpiled client. Under `build` run `server.sh` to run the server and client locally on the same port.
+
+After run `build.sh` you can create binary file to run.
+
+`yarn global add pkg` and `pkg .` .
