@@ -1,16 +1,20 @@
 #!/bin/bash
 
-cd "$(dirname "$0")"
+CURRENT_DIR=$(dirname "$0")
+
+echo "${CURRENT_DIR}"
+
+cd "${CURRENT_DIR}"
 rm -fr build
-mkdir build
+mkdir -p build
 
 cp README.md build/
 
-cd server
+cd "${CURRENT_DIR}/server"
 yarn
 cp -r . ../build/
 
-cd ../client
+cd "${CURRENT_DIR}/client"
 yarn
 yarn build
 

@@ -376,4 +376,4 @@ $RECYCLE.BIN/
 
 server/src/public
 client*/build
-./build
+build/
