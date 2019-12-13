@@ -1,20 +1,36 @@
 #!/bin/bash
 
-CURRENT_DIR=$(dirname "$0")
+CURRENT_DIR=$(
+  cd "$(dirname "$0")" || exit
+  pwd
+)
 
 echo "${CURRENT_DIR}"
 
-cd "${CURRENT_DIR}"
+echo "##"
+echo "## Re Make build directly"
+echo "##"
+
+cd "${CURRENT_DIR}" || exit
 rm -fr build
 mkdir -p build
 
+echo "##"
+echo "## Copy README.md"
+echo "##"
 cp README.md build/
 
-cd "${CURRENT_DIR}/server"
+echo "##"
+echo "## Build server side"
+echo "##"
+cd "${CURRENT_DIR}/server" || exit
 yarn
 cp -r . ../build/
 
-cd "${CURRENT_DIR}/client"
+echo "##"
+echo "## Build client side"
+echo "##"
+cd "${CURRENT_DIR}/client" || exit
 yarn
 yarn build
 
