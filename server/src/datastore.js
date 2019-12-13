@@ -69,9 +69,8 @@ const queryKind = (req, res) => {
   datastore.runQuery(query)
     .then(results => {
       results[0].forEach(entity => {
-        let id = entity[datastore.KEY].id;
+        entity.__key__ = keyFromKeyProto(entity[datastore.KEY]);
         delete entity[datastore.KEY];
-        entity.id = id;
       });
       return res.json({
         entities: results[0],
@@ -84,6 +83,14 @@ const queryKind = (req, res) => {
       res.status(500);
     });
 };
+
+function keyFromKeyProto(key) {
+  return {
+    namespace: key.namespace,
+    kind: key.kind,
+    id: key.id,
+  };
+}
 
 const deleteKindItem = (req, res) => {
   const { id, namespace } = req.params;

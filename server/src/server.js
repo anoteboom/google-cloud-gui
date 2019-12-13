@@ -25,7 +25,7 @@ app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.ht
 
 app.listen(port);
 
-// if (!argv.skipBrowser) {
-//   const open = require('open');
-//   open(`http://localhost:${port}`);
-// }
+if (!argv.skipBrowser) {
+  const open = require('open');
+  open(`http://localhost:${port}`);
+}

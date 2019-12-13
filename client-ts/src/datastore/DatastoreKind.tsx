@@ -4,7 +4,7 @@ import { Button, Checkbox, IconButton, Snackbar } from '@material-ui/core';
 import { Visibility } from '@material-ui/icons';
 import { css } from 'glamor';
 import { Div } from 'glamorous';
-import { flatMap, last, sortBy } from 'lodash';
+import { flatMap, sortBy } from 'lodash';
 import { AutoSizer, Column, InfiniteLoader, Table } from 'react-virtualized';
 import ConfirmDialog from '../ConfirmDialog';
 import { QueryResult } from '../model/QueryResult';
@@ -19,7 +19,7 @@ interface OwnProps {
 const DatastoreKind: React.FC<OwnProps> = ({ id, namespace, kind }) => {
   const [entities, setEntities] = useState<{ [key: string]: any }[] | null>(null);
   const [cursor, setCursor] = useState<string | undefined>(undefined);
-  const [moreResults, setMoreResults] = useState(true);
+  const [moreResults, setMoreResults] = useState(false);
   const [columns, setColumns] = useState<{ [key: string]: any }[]>([]);
   const [selectedKeys, setSelectedKeys] = useState<{ id: string, kind: string }[]>([]);
   const [loading, setLoading] = useState(false);
@@ -28,10 +28,11 @@ const DatastoreKind: React.FC<OwnProps> = ({ id, namespace, kind }) => {
   const [viewedEntity, setViewedEntity] = useState<{ [key: string]: any } | null>(null);
 
   const getQueryResults = (): Promise<any> => {
-    if (!moreResults) {
+    if (!moreResults || !cursor) {
       return Promise.resolve();
     }
-    setMoreResults(false);
+
+    setLoading(true);
 
     return axios.get(`/datastore/${id}/${namespace}/kinds/${kind}/query`, { params: { cursor } })
       .then(({ data }) => QueryResult.parse(data))
@@ -39,60 +40,50 @@ const DatastoreKind: React.FC<OwnProps> = ({ id, namespace, kind }) => {
         const allEntities = [...(entities || []), ...queryResult.entities];
         const columns = [...new Set(flatMap(allEntities, entity => Object.keys(entity)))];
 
-        setLoading(false);
         setEntities(allEntities);
         setCursor(queryResult.next.endCursor);
-        setMoreResults(queryResult.next.moreResults !== 'NO_MORE_RESULTS' && cursor !== queryResult.next.endCursor);
+        setMoreResults(cursor !== queryResult.next.endCursor);
         setColumns(sortBy(columns).map((key: string) => ({
           dataKey: key,
           label: key === '__key__' ? 'ID/Name' : key,
           width: 200
         })));
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
-  const runQuery = (hoge: string = '') => {
-    console.log(hoge);
-    console.log('runQuery');
-
-    setEntities(null);
-    setCursor(undefined);
-    setMoreResults(true);
-    setColumns([]);
-    setSelectedKeys([]);
+  const runQuery = () => {
     setLoading(true);
+    setCursor(undefined);
 
-    getQueryResults()
-      .catch(console.error); // TODO
+    axios.get(`/datastore/${id}/${namespace}/kinds/${kind}/query`)
+      .then(({ data }) => QueryResult.parse(data))
+      .then((queryResult: QueryResult) => {
+        const allEntities = queryResult.entities;
+        const columns = [...new Set(flatMap(allEntities, entity => Object.keys(entity)))];
+
+        setEntities(queryResult.entities);
+        setCursor(queryResult.next.endCursor);
+        setMoreResults(true);
+        setColumns(sortBy(columns).map((key: string) => ({
+          dataKey: key,
+          label: key === '__key__' ? 'ID/Name' : key,
+          width: 200
+        })));
+      })
+      .catch(console.error) // TODO
+      .finally(() => {
+        setLoading(false);
+        setSelectedKeys([]);
+      });
   };
 
   useEffect(() => {
-    runQuery('effect');
+    runQuery();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [kind]);
-
-  const renderIdOrName = (key: any): string => {
-    const lastPath = last(key.path as ({ id: string, kind: string }[]));
-    if (!lastPath) {
-      return '';
-    }
-
-    return lastPath.id ? lastPath.id : JSON.stringify(lastPath.kind);
-  };
-
-  const getRowData = (index: number) => {
-    if (!entities || entities.length === 0) {
-      return {};
-    }
-
-    return (
-      Object.assign(
-        {},
-        Object.entries(entities[index])
-          .map(([key, value]) => ({ [key]: key === '__key__' ? renderIdOrName(value) : JSON.stringify(value) })),
-      )
-    );
-  };
 
   const deleteEntities = () => {
 
@@ -101,14 +92,14 @@ const DatastoreKind: React.FC<OwnProps> = ({ id, namespace, kind }) => {
   return (
     <Div flex={1} display="flex" flexDirection="column">
       <Div>
-        <Button onClick={() => runQuery()} color="primary"> Refresh </Button>
+        <Button onClick={runQuery} color="primary"> Refresh </Button>
         <Button onClick={() => setPromptDelete(true)} disabled={selectedKeys.length === 0} color="primary">Delete</Button>
       </Div>
       <Div flex={1} fontSize="small">
         {entities && (
           <AutoSizer>
             {({ height, width }) => (
-              <InfiniteLoader isRowLoaded={({ index }) => !!entities[index]} loadMoreRows={getQueryResults} rowCount={entities.length + 1}>
+              <InfiniteLoader isRowLoaded={({ index }) => !!entities[index]} loadMoreRows={() => getQueryResults()} rowCount={entities.length + 1}>
                 {({ onRowsRendered, registerChild }) => (
                   <Table
                     headerHeight={30}
@@ -116,7 +107,11 @@ const DatastoreKind: React.FC<OwnProps> = ({ id, namespace, kind }) => {
                     onRowsRendered={onRowsRendered}
                     ref={registerChild}
                     rowCount={entities.length}
-                    rowGetter={({ index }) => getRowData(index)}
+                    rowGetter={({ index }) => (
+                      Object.fromEntries(
+                        Object.entries(entities[index]).map(([key, value]) => [key, key === '__key__' ? value.id : JSON.stringify(value)])
+                      )
+                    )}
                     rowHeight={30}
                     width={width}
                     headerClassName={css({ textTransform: 'none !important' }).toString()}
