@@ -7,6 +7,7 @@ import { Div } from 'glamorous';
 import { flatMap, sortBy } from 'lodash';
 import { AutoSizer, Column, InfiniteLoader, Table } from 'react-virtualized';
 import ConfirmDialog from '../ConfirmDialog';
+import EntityDialog from './EntityDialog';
 import { QueryResult } from '../model/QueryResult';
 import 'react-virtualized/styles.css';
 
@@ -157,10 +158,12 @@ const DatastoreKind: React.FC<OwnProps> = ({ id, namespace, kind }) => {
         open={deleting || loading}
         message={deleting ? 'Deleting...' : 'Loading...'}
       />
-      {/*<EntityDialog*/}
-      {/*  entity={viewedEntity}*/}
-      {/*  onClose={() => setViewedEntity(null)}*/}
-      {/*/>*/}
+      {viewedEntity && (
+        <EntityDialog
+          entity={viewedEntity}
+          onClose={() => setViewedEntity(null)}
+        />
+      )}
       {promptDelete && (
         <ConfirmDialog
           text={selectedKeys.length === 1 ? 'Delete entity?' : `Delete ${selectedKeys.length} entities?`}
