@@ -62,3 +62,12 @@
     headers:
       content-type: application/json
     file: api/get-kind-query.json
+
+- request:
+    method: POST
+    url: ^/datastore/.+/.+/delete$
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+    body: ''

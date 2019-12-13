@@ -18,7 +18,7 @@ interface OwnProps {
 }
 
 const DatastoreKind: React.FC<OwnProps> = ({ id, namespace, kind }) => {
-  const [entities, setEntities] = useState<{ [key: string]: any }[] | null>(null);
+  const [entities, setEntities] = useState<{ [key: string]: any }[]>([]);
   const [cursor, setCursor] = useState<string | undefined>(undefined);
   const [moreResults, setMoreResults] = useState(false);
   const [columns, setColumns] = useState<{ [key: string]: any }[]>([]);
@@ -87,7 +87,17 @@ const DatastoreKind: React.FC<OwnProps> = ({ id, namespace, kind }) => {
   }, [kind]);
 
   const deleteEntities = () => {
+    setDeleting(true);
 
+    axios.post(`/datastore/${id}/${namespace}/delete`, selectedKeys)
+      .then(() => {
+        setSelectedKeys([]);
+        setEntities(entities.filter(entity => !selectedKeys.includes(entity.__key__)));
+      })
+      .catch(console.error) // TODO
+      .finally(() => {
+        setDeleting(false);
+      });
   };
 
   return (
@@ -97,61 +107,59 @@ const DatastoreKind: React.FC<OwnProps> = ({ id, namespace, kind }) => {
         <Button onClick={() => setPromptDelete(true)} disabled={selectedKeys.length === 0} color="primary">Delete</Button>
       </Div>
       <Div flex={1} fontSize="small">
-        {entities && (
-          <AutoSizer>
-            {({ height, width }) => (
-              <InfiniteLoader isRowLoaded={({ index }) => !!entities[index]} loadMoreRows={() => getQueryResults()} rowCount={entities.length + 1}>
-                {({ onRowsRendered, registerChild }) => (
-                  <Table
-                    headerHeight={30}
-                    height={height}
-                    onRowsRendered={onRowsRendered}
-                    ref={registerChild}
-                    rowCount={entities.length}
-                    rowGetter={({ index }) => (
-                      Object.fromEntries(
-                        Object.entries(entities[index]).map(([key, value]) => [key, key === '__key__' ? value.id : JSON.stringify(value)])
-                      )
+        <AutoSizer>
+          {({ height, width }) => (
+            <InfiniteLoader isRowLoaded={({ index }) => !!entities[index]} loadMoreRows={() => getQueryResults()} rowCount={entities.length + 1}>
+              {({ onRowsRendered, registerChild }) => (
+                <Table
+                  headerHeight={30}
+                  height={height}
+                  onRowsRendered={onRowsRendered}
+                  ref={registerChild}
+                  rowCount={entities.length}
+                  rowGetter={({ index }) => (
+                    Object.fromEntries(
+                      Object.entries(entities[index]).map(([key, value]) => [key, key === '__key__' ? value.id : JSON.stringify(value)])
+                    )
+                  )}
+                  rowHeight={30}
+                  width={width}
+                  headerClassName={css({ textTransform: 'none !important' }).toString()}
+                  gridClassName={css({ outline: 'none !important' }).toString()}
+                >
+                  <Column
+                    dataKey="__key__"
+                    minWidth={100}
+                    width={100}
+                    cellRenderer={({ rowIndex }: { rowIndex: number }) => (
+                      <Div display="flex">
+                        <Checkbox
+                          color="primary"
+                          checked={selectedKeys.includes(entities[rowIndex].__key__)}
+                          onChange={() => {
+                            const key = entities[rowIndex].__key__;
+                            setSelectedKeys(selectedKeys.includes(key) ? selectedKeys.filter(k => k !== key) : [...selectedKeys, key]);
+                          }}
+                        />
+                        <IconButton onClick={() => setViewedEntity(entities[rowIndex])}>
+                          <Visibility/>
+                        </IconButton>
+                      </Div>
                     )}
-                    rowHeight={30}
-                    width={width}
-                    headerClassName={css({ textTransform: 'none !important' }).toString()}
-                    gridClassName={css({ outline: 'none !important' }).toString()}
-                  >
+                  />
+                  {columns.map(({ dataKey, label, width }) => (
                     <Column
-                      dataKey="__key__"
-                      minWidth={100}
-                      width={100}
-                      cellRenderer={({ rowIndex }: { rowIndex: number }) => (
-                        <Div display="flex">
-                          <Checkbox
-                            color="primary"
-                            checked={selectedKeys.includes(entities[rowIndex].__key__)}
-                            onChange={() => {
-                              const key = entities[rowIndex].__key__;
-                              setSelectedKeys(selectedKeys.includes(key) ? selectedKeys.filter(k => k !== key) : [...selectedKeys, key]);
-                            }}
-                          />
-                          <IconButton onClick={() => setViewedEntity(entities[rowIndex])}>
-                            <Visibility/>
-                          </IconButton>
-                        </Div>
-                      )}
+                      key={dataKey}
+                      dataKey={dataKey}
+                      label={label}
+                      width={width}
                     />
-                    {columns.map(({ dataKey, label, width }) => (
-                      <Column
-                        key={dataKey}
-                        dataKey={dataKey}
-                        label={label}
-                        width={width}
-                      />
-                    ))}
-                  </Table>
-                )}
-              </InfiniteLoader>
-            )}
-          </AutoSizer>
-        )}
+                  ))}
+                </Table>
+              )}
+            </InfiniteLoader>
+          )}
+        </AutoSizer>
       </Div>
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
