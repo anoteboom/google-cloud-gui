@@ -96,15 +96,9 @@ const deleteKindItem = (req, res) => {
   const { id, namespace } = req.params;
 
   const datastore = getDatastore(id, namespace);
-  const keys = req.body.map(({ path }) => (
-    datastore.key(
-      path
-        .map(({ kind, id, name }) => [kind, id ? datastore.int(id) : name])
-        .reduce((a, b) => [...a, ...b], [])
-    )
-  ));
+  const keys = req.body.map(({ kind, id }) => datastore.key({ namespace: undefined, path: [kind, datastore.int(id)] }));
 
-  datastore.delete(keys)
+  datastore.delete(keys, { errorOnMissing: true })
     .then(() => res.json({}))
     .catch(e => {
       console.error('Failed to delete kind item');

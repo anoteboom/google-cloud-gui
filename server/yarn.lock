@@ -18,14 +18,14 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@google-cloud/datastore@5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@google-cloud/datastore/-/datastore-5.0.1.tgz#ced7d74f77a2a72b891082e2b1c13b547c436bb4"
-  integrity sha512-VJxvcrGQk+gBLIae8njrvZt9eZtIuFZbxAUG3iN0UbWo8VvkPkM2aKMU0r4qR0nghgMWv6RRkFNsbRtMknm4ag==
+"@google-cloud/datastore@5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@google-cloud/datastore/-/datastore-5.0.2.tgz#df3d2b344fa02aabcc935ce6b974de56bfad2825"
+  integrity sha512-Gm2G7JfcBzUEIz23GWRPhR36jsgnP+f79+xhVphW5k+AXTzV5JETlVyVtw0pE0YNmrIH+gUr+BNn5LIv1cOsDA==
   dependencies:
     "@google-cloud/projectify" "^1.0.0"
     "@google-cloud/promisify" "^1.0.0"
-    "@grpc/grpc-js" "0.6.13"
+    "@grpc/grpc-js" "0.6.14"
     "@types/duplexify" "^3.6.0"
     "@types/long" "^4.0.0"
     arrify "^2.0.1"
@@ -47,7 +47,14 @@
   resolved "https://registry.yarnpkg.com/@google-cloud/promisify/-/promisify-1.0.4.tgz#ce86ffa94f9cfafa2e68f7b3e4a7fad194189723"
   integrity sha512-VccZDcOql77obTnFh0TbNED/6ZbbmHDf8UMNnzO1d5g9V0Htfm4k5cllY8P1tJsRKC3zWYGRLaViiupcgVjBoQ==
 
-"@grpc/grpc-js@0.6.13", "@grpc/grpc-js@^0.6.12":
+"@grpc/grpc-js@0.6.14":
+  version "0.6.14"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.6.14.tgz#956d38e8541af2296fdb651fcc6e80f30e51b3b5"
+  integrity sha512-M6q3MtHzk0NQPs1PB+SXSJtkDtK8WXJh+1B1WVJQp5HTURadzj9t1bUb/Fjhq+K57lKsOgL60r8WGmE7vks1eg==
+  dependencies:
+    semver "^6.2.0"
+
+"@grpc/grpc-js@^0.6.12":
   version "0.6.13"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.6.13.tgz#960c37fffb006c683382de3fdf4d8ab837829afe"
   integrity sha512-fxkxS+sEtYdfR0ifqgCTqBe4jZ5PvlvgcaYpzwgMqz+b18uUdPmp5eRQN+qbbJg2ZMUcgItA8OWIvAobW3PDng==
@@ -2178,10 +2185,10 @@ node-forge@^0.9.0:
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.9.1.tgz#775368e6846558ab6676858a4d8c6e8d16c677b5"
   integrity sha512-G6RlQt5Sb4GMBzXvhfkeFmbqR6MzhtnT7VTHuLadjkii3rdYHNdw0m8zA4BTxVIh68FicCQ2NSUANpsqkr9jvQ==
 
-nodemon@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-2.0.1.tgz#cec436f8153ad5d3e6c27c304849a06cabea71cc"
-  integrity sha512-UC6FVhNLXjbbV4UzaXA3wUdbEkUZzLGgMGzmxvWAex5nzib/jhcSHVFlQODdbuUHq8SnnZ4/EABBAbC3RplvPg==
+nodemon@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-2.0.2.tgz#9c7efeaaf9b8259295a97e5d4585ba8f0cbe50b0"
+  integrity sha512-GWhYPMfde2+M0FsHnggIHXTqPDHXia32HRhh6H0d75Mt9FKUoCBvumNHr7LdrpPBTKxsWmIEOjoN+P4IU6Hcaw==
   dependencies:
     chokidar "^3.2.2"
     debug "^3.2.6"
