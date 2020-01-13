@@ -18,17 +18,17 @@
     "emulator"
   ],
   "dependencies": {
-    "@google-cloud/datastore": "5.0.2",
+    "@google-cloud/datastore": "5.0.3",
     "body-parser": "1.19.0",
     "express": "4.17.1",
     "lodash-id": "0.14.0",
     "lowdb": "1.0.0",
     "open": "7.0.0",
     "server": "1.0.21",
-    "yargs": "15.0.2"
+    "yargs": "15.1.0"
   },
   "devDependencies": {
-    "eslint": "6.7.2",
+    "eslint": "6.8.0",
     "nodemon": "2.0.2"
   },
   "pkg": {

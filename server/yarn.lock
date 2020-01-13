@@ -18,14 +18,14 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@google-cloud/datastore@5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@google-cloud/datastore/-/datastore-5.0.2.tgz#df3d2b344fa02aabcc935ce6b974de56bfad2825"
-  integrity sha512-Gm2G7JfcBzUEIz23GWRPhR36jsgnP+f79+xhVphW5k+AXTzV5JETlVyVtw0pE0YNmrIH+gUr+BNn5LIv1cOsDA==
+"@google-cloud/datastore@5.0.3":
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@google-cloud/datastore/-/datastore-5.0.3.tgz#878d02486b2183bebebd0577f7338fc4965fcd13"
+  integrity sha512-fra0z1ZNaAFCsO0fKUbiDzc/hDXnumdZ7NZr7gi0Q3snxv1/q2Wv54KM/159ZqSOR/9cr+6nso0Cu7StuhRHyw==
   dependencies:
     "@google-cloud/projectify" "^1.0.0"
     "@google-cloud/promisify" "^1.0.0"
-    "@grpc/grpc-js" "0.6.14"
+    "@grpc/grpc-js" "0.6.15"
     "@types/duplexify" "^3.6.0"
     "@types/long" "^4.0.0"
     arrify "^2.0.1"
@@ -47,10 +47,10 @@
   resolved "https://registry.yarnpkg.com/@google-cloud/promisify/-/promisify-1.0.4.tgz#ce86ffa94f9cfafa2e68f7b3e4a7fad194189723"
   integrity sha512-VccZDcOql77obTnFh0TbNED/6ZbbmHDf8UMNnzO1d5g9V0Htfm4k5cllY8P1tJsRKC3zWYGRLaViiupcgVjBoQ==
 
-"@grpc/grpc-js@0.6.14":
-  version "0.6.14"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.6.14.tgz#956d38e8541af2296fdb651fcc6e80f30e51b3b5"
-  integrity sha512-M6q3MtHzk0NQPs1PB+SXSJtkDtK8WXJh+1B1WVJQp5HTURadzj9t1bUb/Fjhq+K57lKsOgL60r8WGmE7vks1eg==
+"@grpc/grpc-js@0.6.15":
+  version "0.6.15"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.6.15.tgz#534d1051ddced4e5e5849212789dd64014214dd4"
+  integrity sha512-BFK5YMu8JILedibo0nr3NYM0ZC5hCZuXtzk10wEUp3d3pH11PjdvTfN1yEJ0VsfBY5Gtp3WOQ+t7Byq0NzH/iQ==
   dependencies:
     semver "^6.2.0"
 
@@ -1051,10 +1051,10 @@ eslint-visitor-keys@^1.1.0:
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.1.0.tgz#e2a82cea84ff246ad6fb57f9bde5b46621459ec2"
   integrity sha512-8y9YjtM1JBJU/A9Kc+SbaOV4y29sSWckBwMHa+FGtVj5gN/sbnKDf6xJUl+8g7FAij9LVaP8C24DUiH/f/2Z9A==
 
-eslint@6.7.2:
-  version "6.7.2"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-6.7.2.tgz#c17707ca4ad7b2d8af986a33feba71e18a9fecd1"
-  integrity sha512-qMlSWJaCSxDFr8fBPvJM9kJwbazrhNcBU3+DszDW1OlEwKBBRWsJc7NJFelvwQpanHCR14cOLD41x8Eqvo3Nng==
+eslint@6.8.0:
+  version "6.8.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-6.8.0.tgz#62262d6729739f9275723824302fb227c8c93ffb"
+  integrity sha512-K+Iayyo2LtyYhDSYwz5D5QdWw0hCacNzyq1Y821Xna2xSJj7cijoLLYmLxTQgcgZ9mC61nryMy9S7GRbYpI5Ig==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     ajv "^6.10.0"
@@ -3486,10 +3486,10 @@ yargs-parser@^16.1.0:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
 
-yargs@15.0.2:
-  version "15.0.2"
-  resolved "https://registry.yarnpkg.com/yargs/-/yargs-15.0.2.tgz#4248bf218ef050385c4f7e14ebdf425653d13bd3"
-  integrity sha512-GH/X/hYt+x5hOat4LMnCqMd8r5Cv78heOMIJn1hr7QPPBqfeC6p89Y78+WB9yGDvfpCvgasfmWLzNzEioOUD9Q==
+yargs@15.1.0:
+  version "15.1.0"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-15.1.0.tgz#e111381f5830e863a89550bd4b136bb6a5f37219"
+  integrity sha512-T39FNN1b6hCW4SOIk1XyTOWxtXdcen0t+XYrysQmChzSipvhBO8Bj0nK1ozAasdk24dNWuMZvr4k24nz+8HHLg==
   dependencies:
     cliui "^6.0.0"
     decamelize "^1.2.0"
