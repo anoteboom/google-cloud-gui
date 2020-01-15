@@ -26,7 +26,7 @@ const DatastoreKind: React.FC<OwnProps> = ({ id, namespace, kind }) => {
   const [loading, setLoading] = useState(false);
   const [promptDelete, setPromptDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
-  const [viewedEntity, setViewedEntity] = useState<{ [key: string]: any } | null>(null);
+  const [viewedEntity, setViewedEntity] = useState<{ entity: { [key: string]: any }, index: number } | null>(null);
 
   const getQueryResults = (): Promise<any> => {
     if (!moreResults || !cursor) {
@@ -141,7 +141,7 @@ const DatastoreKind: React.FC<OwnProps> = ({ id, namespace, kind }) => {
                             setSelectedKeys(selectedKeys.includes(key) ? selectedKeys.filter(k => k !== key) : [...selectedKeys, key]);
                           }}
                         />
-                        <IconButton onClick={() => setViewedEntity(entities[rowIndex])}>
+                        <IconButton onClick={() => setViewedEntity({ entity: entities[rowIndex], index: rowIndex })}>
                           <Visibility/>
                         </IconButton>
                       </Div>
@@ -168,8 +168,17 @@ const DatastoreKind: React.FC<OwnProps> = ({ id, namespace, kind }) => {
       />
       {viewedEntity && (
         <EntityDialog
-          entity={viewedEntity}
+          datastoreId={id}
+          namespace={namespace}
+          entity={viewedEntity.entity}
           onClose={() => setViewedEntity(null)}
+          onEdited={(updatedEntity: { [key: string]: any }) => {
+            const newEntities = entities.concat();
+            newEntities[viewedEntity.index] = updatedEntity;
+
+            setEntities(newEntities);
+            setViewedEntity({ entity: newEntities[viewedEntity.index], index: viewedEntity.index });
+          }}
         />
       )}
       {promptDelete && (
