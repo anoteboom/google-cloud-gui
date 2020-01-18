@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { argv } = require('yargs');
 const { getProjectList, createProject, deleteProject } = require('./projects');
-const { getNamespaceList, getKindList, queryKind, deleteKindItem } = require('./datastore');
+const { getNamespaceList, getKindList, queryKind, updateKindItem, deleteKindItem } = require('./datastore');
 
 const port = argv.port || 8000;
 const app = express();
@@ -19,6 +19,7 @@ app.delete('/projects/:id', deleteProject);
 app.get('/datastore/:id/namespaces', getNamespaceList);
 app.get('/datastore/:id/:namespace/kinds', getKindList());
 app.get('/datastore/:id/:namespace/kinds/:kind/query', queryKind);
+app.put('/datastore/:datastoreId/:namespace/kinds/:kind/:id', updateKindItem);
 app.post('/datastore/:id/:namespace/delete', deleteKindItem);
 
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));

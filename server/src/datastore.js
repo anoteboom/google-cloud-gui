@@ -92,6 +92,48 @@ function keyFromKeyProto(key) {
   };
 }
 
+const updateKindItem = (req, res) => {
+  const { datastoreId, namespace, kind, id } = req.params;
+
+  const datastore = getDatastore(datastoreId, namespace);
+
+  const entity = {
+    key: datastore.key({ path: [kind, parseInt(id, 10)] }),
+    method: 'update',
+    data: toDatastore(req.body),
+  };
+
+
+  datastore.save(entity)
+    .then(() => res.json({}))
+    .catch(e => {
+      console.error('Failed to save kind item');
+      console.warn(e.message);
+      res.status(500);
+    });
+};
+
+const toDatastore = (obj, nonIndexed) => {
+  nonIndexed = nonIndexed || [];
+  const results = [];
+
+  Object.keys(obj).forEach(keyName => {
+    if (obj[keyName] === undefined) {
+      return;
+    }
+
+    let value = obj[keyName];
+    if (typeof (obj[keyName]) === 'string' && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/.test(obj[keyName])) {
+      // Timestamp
+      value = new Date(obj[keyName]);
+    }
+    // TODO What about types other than Timestamp ?
+
+    results.push({ name: keyName, value, excludeFromIndexes: nonIndexed.indexOf(keyName) !== -1 });
+  });
+  return results;
+};
+
 const deleteKindItem = (req, res) => {
   const { id, namespace } = req.params;
 
@@ -111,5 +153,6 @@ module.exports = {
   getNamespaceList,
   getKindList,
   queryKind,
+  updateKindItem,
   deleteKindItem,
 };
