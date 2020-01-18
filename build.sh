@@ -34,4 +34,4 @@ cd "${CURRENT_DIR}/client" || exit
 yarn
 yarn build
 
-cp -r build ../build/src/public
+cp -r build/* ../build/src/public
